@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block body %}
+<div>
+    {% for detail in details %}
+        {% with sub_site = detail["subSite"] %}
+        <p><a href="site/{{ detail['siteId'] }}">名称: {{ sub_site["name"] }}</a></p>
+        <p>
+        {% for image in sub_site["imageList"] %}
+            <a href="{{image}}"><img src="{{image}}" width="100"/></a>
+        {% endfor %}
+        </p>
+        <p>描述: {{ sub_site["description"] }}</p>
+        <p>收藏数: {{ detail["countCollect"] }}</p>
+        {% endwith %}
+        <hr/>
+    {% endfor %}
+</div>
+{% endblock %}
