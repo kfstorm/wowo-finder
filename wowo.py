@@ -31,8 +31,8 @@ def get_image(url):
 URL_PREFIX = "https://app.woyouzhijia.cn/app/community"
 
 
-def get_wowo_list():
-    return get_json(f"{URL_PREFIX}/site/search/findBasicWoWo?latitude=39.799574&limit=1000&longitude=116.421593&page=1&range=20&type=true")
+def get_wowo_list(longitude, latitude):
+    return get_json(f"{URL_PREFIX}/site/search/findBasicWoWo?latitude={latitude}&limit=1000&longitude={longitude}&page=1&range=20&type=true")
 
 
 def get_wowo_detail(wowo_id):

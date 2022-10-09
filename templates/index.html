@@ -1,19 +1,26 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block body %}
+<script>
+    function getLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(success, error);
+        }
+        else {
+            alert("该浏览器不支持获取地理位置。");
+        }
+    }
+
+    function success(position) {
+        // TODO: convert to gaode coordinates
+        window.location.href = `sites?longitude=${position.coords.longitude}&latitude=${position.coords.latitude}`;
+    }
+
+    function error(err) {
+        console.warn(`ERROR(${err.code}): ${err.message}`);
+    }
+</script>
 <div>
-    {% for detail in details %}
-        {% with sub_site = detail["subSite"] %}
-        <p><a href="site/{{ detail['siteId'] }}">名称: {{ sub_site["name"] }}</a></p>
-        <p>
-        {% for image in sub_site["imageList"] %}
-            <a href="{{image}}"><img src="{{image}}" width="100"/></a>
-        {% endfor %}
-        </p>
-        <p>描述: {{ sub_site["description"] }}</p>
-        <p>收藏数: {{ detail["countCollect"] }}</p>
-        {% endwith %}
-        <hr/>
-    {% endfor %}
+    <button onclick="getLocation()">获取当前位置</button>
 </div>
 {% endblock %}
