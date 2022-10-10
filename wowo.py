@@ -28,19 +28,23 @@ def get_image(url):
     return get_response(url).content
 
 
-URL_PREFIX = "https://app.woyouzhijia.cn/app/community"
+URL_PREFIX = "https://app.woyouzhijia.cn/app"
 
 
 def get_wowo_list(longitude, latitude, range=20):
-    return get_json(f"{URL_PREFIX}/site/search/findBasicWoWo?latitude={latitude}&limit=1000&longitude={longitude}&page=1&range={range}&type=true")
+    return get_json(f"{URL_PREFIX}/community/site/search/findBasicWoWo?latitude={latitude}&limit=1000&longitude={longitude}&page=1&range={range}&type=true")
 
 
 def get_wowo_detail(wowo_id):
-    return get_json(f"{URL_PREFIX}/site/get?siteId={wowo_id}")
+    return get_json(f"{URL_PREFIX}/community/site/get?siteId={wowo_id}")
 
 
 def get_wowo_comments(wowo_id):
-    return get_json(f"{URL_PREFIX}/comment/findComment?limit=10&page=1&siteId={wowo_id}")
+    return get_json(f"{URL_PREFIX}/community/comment/findComment?limit=10&page=1&siteId={wowo_id}")
+
+
+def get_wowo_icons():
+    return get_json(f"{URL_PREFIX}/icon/findIconByLabel?label=wowo")
 
 
 def bd09_to_gaode(lng, lat):

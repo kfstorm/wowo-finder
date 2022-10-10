@@ -49,8 +49,15 @@ def sites():
 @app.route("/site/<site_id>")
 def site(site_id):
     detail = wowo.get_wowo_detail(site_id)
+    sub_site=detail["subSite"]
     comments = wowo.get_wowo_comments(site_id)
-    return render_template("site.html", detail=detail, sub_site=detail["subSite"], comments=comments)
+    icons = wowo.get_wowo_icons()
+
+    def get_icon_key(icon):
+        return "selectedIcon" if icon["id"] in sub_site["iconList"] else "unselectedIcon"
+
+    icons = [i[get_icon_key(i)] for i in icons]
+    return render_template("site.html", site_id=site_id, detail=detail, sub_site=sub_site, comments=comments, icons=icons)
 
 
 @app.route("/raw_site/<site_id>")

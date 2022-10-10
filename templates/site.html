@@ -5,10 +5,13 @@
     <p>名称: {{ sub_site["name"] }}</p>
     <p>
     {% for image in sub_site["imageList"] %}
-        <a href="{{image}}"><img src="{{image}}" width="200"/></a>
+        <a href="{{image}}"><img src="{{image}}" width="00"/></a>
     {% endfor %}
     </p>
     <p>描述: {{ sub_site["description"] }}</p>
+    {% for icon in icons %}
+    <img src="{{icon}}" width="50" />
+    {% endfor %}
     <p>收藏数: {{ detail["countCollect"] }}</p>
     <p><a href="/raw_site/{{ detail['siteId'] }}">显示原始数据</a></p>
     <div>
