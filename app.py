@@ -1,3 +1,4 @@
+import urllib.parse
 from flask import Flask, request, render_template
 import wowo
 
@@ -12,17 +13,35 @@ def home():
 
 @app.route("/sites")
 def sites():
-    longitude = float(request.args["longitude"])
-    latitude = float(request.args["latitude"])
-    latitude
-    sites = wowo.get_wowo_list(longitude, latitude)
+    range = request.args.get("range", 20, type=int)
+    longitude = request.args.get("longitude", type=float)
+    latitude = request.args.get("latitude", type=float)
+    page = request.args.get("page", 0, type=int)
+    page_size = request.args.get("page_size", 10, type=int)
+    sites = wowo.get_wowo_list(longitude, latitude, range=range)
     details = []
     for site in sites:
         detail = wowo.get_wowo_detail(site["siteId"])
-        if detail["countCollect"] >= 50:
-            details.append(detail)
+        details.append(detail)
     details.sort(key=lambda x: x["countCollect"], reverse=True)
-    return render_template("sites.html", details=details)
+    total = len(details)
+    start = page * page_size
+    end = (page + 1) * page_size
+    if start > total:
+        start = total
+    if end > total:
+        end = total
+    details = details[start:end]
+
+    def create_page_url(page):
+        url = urllib.parse.urlparse(request.url)
+        qs = urllib.parse.parse_qs(url.query)
+        qs["page"] = page
+        return urllib.parse.urlunparse(url._replace(query=urllib.parse.urlencode(qs, doseq=True)))
+
+    prev_url = create_page_url(page - 1) if page > 0 else None
+    next_url = create_page_url(page + 1) if end < total else None
+    return render_template("sites.html", details=details, total=total, range=range, start=start, end=end, prev_url=prev_url, next_url=next_url)
 
 
 @app.route("/site/<site_id>")

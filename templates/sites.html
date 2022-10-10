@@ -2,7 +2,9 @@
 {% block title %}Home{% endblock %}
 {% block body %}
 <div>
-    <p>总数: {{details|length}}</p>
+    <p>搜寻附近{{range}}公里的窝窝</p>
+    <p>总数: {{total}}</p>
+    <p>当前显示第{{start+1}}个至第{{end}}个</p>
     {% for detail in details %}
         {% with sub_site = detail["subSite"] %}
         <p><a href="site/{{ detail['siteId'] }}">名称: {{ sub_site["name"] }}</a></p>
@@ -16,5 +18,13 @@
         {% endwith %}
         <hr/>
     {% endfor %}
+    <p>
+        {% if prev_url %}
+        <a href="{{prev_url}}">上一页</a>
+        {% endif %}
+        {% if next_url %}
+        <a href="{{next_url}}">下一页</a>
+        {% endif %}
+    </p>
 </div>
 {% endblock %}
