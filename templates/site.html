@@ -14,11 +14,13 @@
     {% endfor %}
     <p>收藏数: {{ detail["countCollect"] }}</p>
     <p><a href="/raw_site/{{ detail['siteId'] }}">显示原始数据</a></p>
+    {% with longitude, latitude = bd09_to_gaode(sub_site["longitude"], sub_site["latitude"]) %}
+    <p>地址: {{sub_site["address"]}}</p>
     <div>
-        {% with longitude, latitude = bd09_to_gaode(sub_site["longitude"], sub_site["latitude"]) %}
-        <iframe width="100%" height="500" src="https://m.amap.com/navi/?dest={{longitude}},{{latitude}}&destName={{sub_site['address']}}&hideRouteIcon=1&key=d3f5d8b3b05231fa6a11375492310e3a" frameborder="0"></iframe>
-        {% endwith %}
+        <iframe width="100%" height="500" src="https://m.amap.com/navi/?dest={{longitude}},{{latitude}}&destName={{sub_site['name']}}&hideRouteIcon=1&key=d3f5d8b3b05231fa6a11375492310e3a" frameborder="0"></iframe>
     </div>
+    <p><a href="https://uri.amap.com/marker?position={{longitude}},{{latitude}}&name={{sub_site['name']}}&src=找窝窝&coordinate=gaode&callnative=1">在高德地图中打开</a></p>
+    {% endwith %}
     <p>评论:</p>
     {% for comment in comments %}
         <p>{{comment["createTime"]}}</p>

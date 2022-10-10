@@ -14,6 +14,10 @@
         {% endfor %}
         </p>
         <p>描述: {{ sub_site["description"] }}</p>
+        {% with longitude, latitude = bd09_to_gaode(sub_site["longitude"], sub_site["latitude"]) %}
+        <p>地址: {{sub_site["address"]}}</p>
+        <p><a href="https://uri.amap.com/marker?position={{longitude}},{{latitude}}&name={{sub_site['name']}}&src=找窝窝&coordinate=gaode&callnative=1">在高德地图中打开</a></p>
+        {% endwith %}
         <p>收藏数: {{ detail["countCollect"] }}</p>
         {% endwith %}
         <hr/>
