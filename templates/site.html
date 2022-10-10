@@ -12,7 +12,7 @@
     <p>收藏数: {{ detail["countCollect"] }}</p>
     <div>
         {% with longitude, latitude = bd09_to_gaode(sub_site["longitude"], sub_site["latitude"]) %}
-        <iframe width="500" height="500" src="https://m.amap.com/navi/?dest={{longitude}},{{latitude}}&destName={{sub_site['address']}}&hideRouteIcon=1&key=d3f5d8b3b05231fa6a11375492310e3a" frameborder="0"></iframe>
+        <iframe width="100%" height="500" src="https://m.amap.com/navi/?dest={{longitude}},{{latitude}}&destName={{sub_site['address']}}&hideRouteIcon=1&key=d3f5d8b3b05231fa6a11375492310e3a" frameborder="0"></iframe>
         {% endwith %}
     </div>
     <p>评论:</p>
