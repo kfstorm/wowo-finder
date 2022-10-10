@@ -14,7 +14,7 @@
 
     function success(position) {
         // TODO: convert to gaode coordinates
-        window.location.href = `sites?longitude=${position.coords.longitude}&latitude=${position.coords.latitude}`;
+        window.location.href = `/sites?longitude=${position.coords.longitude}&latitude=${position.coords.latitude}`;
     }
 
     function error(err) {

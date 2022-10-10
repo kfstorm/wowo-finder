@@ -4,6 +4,8 @@ import wowo
 
 app = Flask(__name__)
 app.jinja_env.globals.update(bd09_to_gaode=wowo.bd09_to_gaode)
+app.config["JSON_AS_ASCII"] = False
+app.config["JSONIFY_MIMETYPE"] = "application/json; charset=utf-8"
 
 
 @app.route("/")
@@ -49,3 +51,9 @@ def site(site_id):
     detail = wowo.get_wowo_detail(site_id)
     comments = wowo.get_wowo_comments(site_id)
     return render_template("site.html", detail=detail, sub_site=detail["subSite"], comments=comments)
+
+
+@app.route("/raw_site/<site_id>")
+def raw_site(site_id):
+    detail = wowo.get_wowo_detail(site_id)
+    return detail
