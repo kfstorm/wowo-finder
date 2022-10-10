@@ -5,7 +5,7 @@
     <p>名称: {{ sub_site["name"] }}</p>
     <p>
     {% for image in sub_site["imageList"] %}
-        <a href="{{image}}"><img src="{{image}}" width="00"/></a>
+        <a href="{{image}}"><img src="{{image}}" width="100"/></a>
     {% endfor %}
     </p>
     <p>描述: {{ sub_site["description"] }}</p>
@@ -25,7 +25,7 @@
         <p>{{comment["content"]}}</p>
         {% if "images" in comment %}
             {% for image in comment["images"] %}
-                <a href="{{image}}"><img src="{{image}}" width="200"/></a>
+                <a href="{{image}}"><img src="{{image}}" width="100"/></a>
             {% endfor %}
         {% endif %}
     {% endfor %}
