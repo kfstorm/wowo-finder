@@ -13,8 +13,19 @@ def home():
     return render_template("index.html")
 
 
+@app.route("/current_location")
+def current_location():
+    return render_template("current_location.html")
+
+
+@app.route("/location_picker")
+def location_picker():
+    return render_template("location_picker.html")
+
+
 @app.route("/sites")
 def sites():
+    location_name = request.args.get("location_name")
     range = request.args.get("range", 20, type=int)
     longitude = request.args.get("longitude", type=float)
     latitude = request.args.get("latitude", type=float)
@@ -43,7 +54,7 @@ def sites():
 
     prev_url = create_page_url(page - 1) if page > 0 else None
     next_url = create_page_url(page + 1) if end < total else None
-    return render_template("sites.html", details=details, total=total, range=range, start=start, end=end, prev_url=prev_url, next_url=next_url)
+    return render_template("sites.html", details=details, total=total, location_name=location_name, range=range, start=start, end=end, prev_url=prev_url, next_url=next_url)
 
 
 @app.route("/site/<site_id>")

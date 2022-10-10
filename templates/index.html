@@ -1,24 +1,29 @@
 {% extends "base.html" %}
-{% block title %}Home{% endblock %}
 {% block body %}
-<div>
-    <p>获取当前位置中……</p>
-</div>
 <script>
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(success, error);
-    }
-    else {
-        alert("该浏览器不支持获取地理位置。");
+    function get_current_location() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(success, error);
+        }
+        else {
+            alert("该浏览器不支持获取地理位置。");
+        }
+
+        function success(position) {
+            // TODO: convert to gaode coordinates
+            window.location.href = `/sites?longitude=${position.coords.longitude}&latitude=${position.coords.latitude}`;
+        }
+
+        function error(err) {
+            alert(`ERROR(${err.code}): ${err.message}`);
+        }
     }
 
-    function success(position) {
-        // TODO: convert to gaode coordinates
-        window.location.href = `/sites?longitude=${position.coords.longitude}&latitude=${position.coords.latitude}`;
-    }
-
-    function error(err) {
-        alert(`ERROR(${err.code}): ${err.message}`);
+    function pick_location() {
+        window.location.href = '/location_picker';
     }
 </script>
+<p><a href="/current_location">使用当前位置</a></p>
+<p><a href="/location_picker">选择位置</a></p>
+</div>
 {% endblock %}

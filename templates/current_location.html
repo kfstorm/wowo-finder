@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block body %}
+<p>获取当前位置中……</p>
+<script>
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(success, error);
+    }
+    else {
+        alert("该浏览器不支持获取地理位置。");
+    }
+
+    function success(position) {
+        // TODO: convert to gaode coordinates
+        window.location.href = `/sites?location_name=当前位置&longitude=${position.coords.longitude}&latitude=${position.coords.latitude}`;
+    }
+
+    function error(err) {
+        alert(`ERROR(${err.code}): ${err.message}`);
+    }
+</script>
+{% endblock %}

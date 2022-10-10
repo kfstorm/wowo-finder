@@ -2,7 +2,7 @@
 {% block title %}Home{% endblock %}
 {% block body %}
 <div>
-    <p>搜寻附近{{range}}公里的窝窝</p>
+    <p>搜寻{{location_name}}附近{{range}}公里的窝窝</p>
     <p>总数: {{total}}</p>
     <p>当前显示第{{start+1}}个至第{{end}}个</p>
     {% for detail in details %}
