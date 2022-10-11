@@ -19,7 +19,7 @@
     <div>
         <iframe width="100%" height="500" src="https://m.amap.com/navi/?dest={{longitude}},{{latitude}}&destName={{sub_site['name']}}&hideRouteIcon=1&key=d3f5d8b3b05231fa6a11375492310e3a" frameborder="0"></iframe>
     </div>
-    <p><a href="https://uri.amap.com/marker?position={{longitude}},{{latitude}}&name={{sub_site['name']}}&src=找窝窝&coordinate=gaode&callnative=1">在高德地图中打开</a></p>
+    <p><a href="iosamap://viewMap?sourceApplication=找窝窝&poiname={{sub_site['name']}}&lat={{latitude}}&lon={{longitude}}&dev=0">在高德地图中打开</a></p>
     {% endwith %}
     <p>评论:</p>
     {% for comment in comments %}
