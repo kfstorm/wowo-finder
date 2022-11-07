@@ -3,6 +3,7 @@ export default {
   data() {
     return {
       mode: "currentLocation",
+      loading: false,
       customLocationText: '',
       customLocation: {
         lat: 0,
@@ -12,20 +13,27 @@ export default {
   },
   methods: {
     async getPosition() {
-      if (this.mode === "currentLocation") {
-        try {
-          const position = await new Promise((resolve, reject) => {
-            navigator.geolocation.getCurrentPosition(resolve, reject);
-          });
-          return {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-          };
-        } catch (error) {
-          alert(error.message);
+      this.loading = true;
+      try {
+        if (this.mode === "currentLocation") {
+          try {
+            const position = await new Promise((resolve, reject) => {
+              navigator.geolocation.getCurrentPosition(resolve, reject);
+            });
+            const ret = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude
+            };
+            this.$emit('locationFound', ret);
+          } catch (error) {
+            alert("无法获取当前位置。");
+            console.error(error);
+          }
+        } else {
+          alert("TODO");
         }
-      } else {
-        alert("TODO");
+      } finally {
+        this.loading = false;
       }
     }
   }
@@ -42,7 +50,7 @@ export default {
       <input class="form-check-input" type="radio" id="customLocation" v-model="mode" value="customLocation" />
       <input type="text" :disabled="mode != 'customLocation'" v-model="customLocationText" placeholder="指定地址" />
     </div>
-    <button @click="getPosition">搜索窝窝</button>
+    <button @click="getPosition">{{loading ? '获取位置中……' : '搜索窝窝'}}</button>
   </div>
 </template>
 
