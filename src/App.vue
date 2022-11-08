@@ -37,6 +37,9 @@ function onReceivedStats({ siteId, stats }) {
 
 <template>
   <div class="main">
+    <div class="title">
+      🚗 找窝窝
+    </div>
     <Query @location-found="onLocationFound" />
     <div v-if="searchState === 1">
       <p class="searchStatus">搜索中……</p>
@@ -56,6 +59,11 @@ function onReceivedStats({ siteId, stats }) {
 .main * {
   margin: 0 auto;
   width: fit-content;
+}
+
+.title {
+  font-size: 3em;
+  color: greenyellow;
 }
 
 .searchStatus {
