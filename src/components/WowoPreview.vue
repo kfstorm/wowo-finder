@@ -5,6 +5,7 @@ export default {
     data() {
         return {
             loading: true,
+            uniqueToken: null,
             images: [],
             address: [],
             description: "",
@@ -19,10 +20,16 @@ export default {
     props: {
         siteId: Number,
     },
+    methods: {
+        onClick() {
+            window.open(`http://web.woyouzhijia.cn/web/share.html?${this.uniqueToken}`, "_blank");
+        }
+    },
     async mounted() {
         const wowo = await wowoApi.getWowo(this.siteId);
         this.loading = false;
 
+        this.uniqueToken = wowo.subSite.uniqueToken;
         this.images = wowo.subSite.imageList;
         this.address = wowo.subSite.address;
         this.description = wowo.subSite.description;
@@ -41,7 +48,7 @@ export default {
 
 <template>
     <p v-if="loading">加载中……</p>
-    <div class="container" v-if="!loading">
+    <div class="container" v-if="!loading" @click="onClick">
         <div class="mainPreview">
             <div>
                 <img class="pic" :src="images[0]" />
