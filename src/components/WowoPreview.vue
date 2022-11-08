@@ -43,24 +43,27 @@ export default {
     <p v-if="loading">加载中……</p>
     <div class="container" v-if="!loading">
         <div class="mainPreview">
-            <img class="pic" :src="images[0]" />
             <div>
-                <p class="description">{{ description }}</p>
-                <p>{{ address }}</p>
-                <p>
-                    <span>{{ style }}</span>
-                    <span v-for="icon in icons">
-                        <img class="icon" :src="icon" />
-                    </span>
-                </p>
+                <img class="pic" :src="images[0]" />
+                <div class="style">{{ style }}</div>
+            </div>
+            <div>
+                <div class="description">{{ description }}</div>
+                <div class="addressLine">
+                    <span class="pin">📍</span>
+                    <span>{{ address }}</span>
+                </div>
+                <div>
+                    <img class="icon" v-for="icon in icons" :src="icon" />
+                </div>
 
             </div>
         </div>
-        <div>
-            <span>收藏数: {{ favorites }}</span>
-            <span>奖励数: {{ rewards }}</span>
-            <span>分享数: {{ shares }}</span>
-            <span>评分: {{ rating }}</span>
+        <div class="stats">
+            <span>❤️ {{ favorites }}</span>
+            <span>🪙 {{ rewards }}</span>
+            <span>↗️ {{ shares }}</span>
+            <span>⭐️ {{ rating }}</span>
         </div>
     </div>
 </template>
@@ -68,10 +71,12 @@ export default {
 <style>
 .container {
     margin: 10px;
+
     border-style: solid;
     border-color: lightgray;
     border-width: medium;
     border-radius: 5px;
+
     background-color: lavender;
 }
 
@@ -99,6 +104,25 @@ export default {
     -webkit-line-clamp: 4;
     line-clamp: 4;
     -webkit-box-orient: vertical;
+
     font-size: 0.8em;
+    margin-top: 10px;
+}
+
+.style {
+    text-align: center;
+}
+
+.pin {
+    margin-right: 10px;
+}
+
+.addressLine {
+    margin: 10px 0;
+    font-size: 0.8em;
+}
+
+.stats * {
+    margin-right: 10px;
 }
 </style>
