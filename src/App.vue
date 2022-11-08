@@ -26,10 +26,10 @@ async function onLocationFound(location) {
   <div class="main">
     <Query @location-found="onLocationFound" />
     <div v-if="searchState === 1">
-      <p>搜索中……</p>
+      <p class="searchStatus">搜索中……</p>
     </div>
     <div v-if="searchState === 2">
-      <p>共找到{{ siteList.length }}个结果</p>
+      <p class="searchStatus">共找到<span class="count">{{ siteList.length }}</span>个结果</p>
     </div>
     <WowoPreview v-for="site in siteList" :key="site.siteId" :site-id="site.siteId" />
   </div>
@@ -43,5 +43,15 @@ async function onLocationFound(location) {
 .main * {
   margin: 0 auto;
   width: fit-content;
+}
+
+.searchStatus {
+  margin: 10px 0;
+}
+
+.count {
+  color: lightgreen;
+  font-weight: bold;
+  margin: 0 5px;
 }
 </style>

@@ -50,10 +50,15 @@ export default {
       <input type="radio" id="customLocation" v-model="mode" value="customLocation" />
       <input type="text" :disabled="mode != 'customLocation'" v-model="customLocationText" placeholder="指定地址" />
     </div>
-    <button @click="getPosition">{{loading ? '获取位置中……' : '搜索窝窝'}}</button>
+    <button @click="getPosition" :disabled="loading">{{loading ? '获取位置中……' : '搜索窝窝'}}</button>
   </div>
 </template>
 
 <style>
-
+input {
+  margin-right: 5px;
+}
+button {
+  margin-top: 10px;
+}
 </style>
