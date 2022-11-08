@@ -5,7 +5,6 @@ export default {
     data() {
         return {
             loading: true,
-            name: "",
             images: [],
             address: [],
             description: "",
@@ -24,14 +23,13 @@ export default {
         const wowo = await wowoApi.getWowo(this.siteId);
         this.loading = false;
 
-        this.name = wowo.subSite.name;
         this.images = wowo.subSite.imageList;
         this.address = wowo.subSite.address;
         this.description = wowo.subSite.description;
         this.style = wowo.subSite.style;
 
         const iconList = await wowoApi.getWowoIcons();
-        this.icons = iconList.map(icon => wowo.subSite.iconList.includes(icon.id) ? icon["selectedIcon"] : icon["unselectedIcon"]);
+        this.icons = iconList.filter(icon => icon.id == 24 || icon.id == 25).map(icon => wowo.subSite.iconList.includes(icon.id) ? icon["selectedIcon"] : icon["unselectedIcon"]);
 
         this.favorites = wowo.countCollect;
         this.rewards = wowo.countReward;
@@ -42,31 +40,65 @@ export default {
 </script>
 
 <template>
-    <div>
-        <p v-if="loading">加载中……</p>
-        <template v-if="!loading">
-            <p>{{ name }}</p>
+    <p v-if="loading">加载中……</p>
+    <div class="container" v-if="!loading">
+        <div class="mainPreview">
             <img class="pic" :src="images[0]" />
-            <p>{{ description }}</p>
-            <p>{{ address }}</p>
-            <p>{{ style }}</p>
-            <img class="icon" v-for="icon in icons" :src="icon" />
-            <p>
-                <span>收藏数: {{ favorites }}</span>
-                <span>奖励数: {{ rewards }}</span>
-                <span>分享数: {{ shares }}</span>
-                <span>评分: {{ rating }}</span>
-            </p>
-        </template>
+            <div>
+                <p class="description">{{ description }}</p>
+                <p>{{ address }}</p>
+                <p>
+                    <span>{{ style }}</span>
+                    <span v-for="icon in icons">
+                        <img class="icon" :src="icon" />
+                    </span>
+                </p>
+
+            </div>
+        </div>
+        <div>
+            <span>收藏数: {{ favorites }}</span>
+            <span>奖励数: {{ rewards }}</span>
+            <span>分享数: {{ shares }}</span>
+            <span>评分: {{ rating }}</span>
+        </div>
     </div>
 </template>
 
 <style>
+.container {
+    margin: 10px;
+    border-style: solid;
+    border-color: lightgray;
+    border-width: medium;
+    border-radius: 5px;
+    background-color: lavender;
+}
+
+.mainPreview {
+    display: flex;
+}
+
 .pic {
-    width: 200px;
+    padding: 10px;
+    object-fit: cover;
+    width: 100px;
+    height: 100px;
 }
 
 .icon {
     width: 50px;
+    height: 50px;
+}
+
+.description {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    /* number of lines to show */
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
+    -webkit-box-orient: vertical;
+    font-size: 0.8em;
 }
 </style>

@@ -25,22 +25,23 @@ async function onLocationFound(location) {
 <template>
   <div class="main">
     <Query @location-found="onLocationFound" />
+    <div v-if="searchState === 1">
+      <p>搜索中……</p>
+    </div>
+    <div v-if="searchState === 2">
+      <p>共找到{{ siteList.length }}个结果</p>
+    </div>
+    <WowoPreview v-for="site in siteList" :key="site.siteId" :site-id="site.siteId" />
   </div>
-  <div v-if="searchState === 1">
-    <p>搜索中……</p>
-  </div>
-  <div v-if="searchState === 2">
-    <p>共找到{{ siteList.length }}个结果</p>
-  </div>
-  <WowoPreview v-for="site in siteList" :key="site.siteId" :site-id="site.siteId" />
 </template>
 
 <style scoped>
 .main {
-  display: flex;
-  justify-content: center;
-  /* align-items: top; */
-  /* height: 100vh; */
-  margin-top: 10vh;
+  margin-top: 50px;
+}
+
+.main * {
+  margin: 0 auto;
+  width: fit-content;
 }
 </style>
