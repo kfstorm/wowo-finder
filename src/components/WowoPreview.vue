@@ -58,30 +58,32 @@ export default {
 </script>
 
 <template>
-    <p v-if="loading">加载中……</p>
-    <div class="container" v-if="!loading" @click="onClick">
-        <div class="mainPreview">
-            <div>
-                <img class="pic" :src="images[0]" />
-                <div class="style">{{ style }}</div>
-            </div>
-            <div>
-                <div class="description">{{ description }}</div>
-                <div class="addressLine">
-                    <span class="pin">📍</span>
-                    <span>{{ address }}</span>
+    <div>
+        <p v-if="loading">加载中……</p>
+        <div class="container" v-if="!loading" @click="onClick">
+            <div class="mainPreview">
+                <div>
+                    <img class="pic" :src="images[0]" />
+                    <div class="style">{{ style }}</div>
                 </div>
                 <div>
-                    <img class="icon" v-for="icon in icons" :src="icon" />
-                </div>
+                    <div class="description">{{ description }}</div>
+                    <div class="addressLine">
+                        <span class="pin">📍</span>
+                        <span>{{ address }}</span>
+                    </div>
+                    <div>
+                        <img class="icon" v-for="icon in icons" :src="icon" />
+                    </div>
 
+                </div>
             </div>
-        </div>
-        <div class="stats">
-            <span>❤️ {{ favorites }}</span>
-            <span>🪙 {{ rewards }}</span>
-            <span>↗️ {{ shares }}</span>
-            <span>⭐️ {{ rating }}</span>
+            <div class="stats">
+                <span>❤️ {{ favorites }}</span>
+                <span>🪙 {{ rewards }}</span>
+                <span>↗️ {{ shares }}</span>
+                <span>⭐️ {{ rating }}</span>
+            </div>
         </div>
     </div>
 </template>
