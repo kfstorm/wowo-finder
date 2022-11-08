@@ -25,6 +25,7 @@ export default {
             window.open(`http://web.woyouzhijia.cn/web/share.html?${this.uniqueToken}`, "_blank");
         }
     },
+    emits: ['receivedStats'],
     async mounted() {
         const wowo = await wowoApi.getWowo(this.siteId);
         this.loading = false;
@@ -42,6 +43,16 @@ export default {
         this.rewards = wowo.countReward;
         this.shares = wowo.countShare;
         this.rating = wowo.averageScore;
+
+        this.$emit("receivedStats", {
+            siteId: this.siteId,
+            stats: {
+                favorites: this.favorites,
+                rewards: this.rewards,
+                shares: this.shares,
+                rating: this.rating,
+            }
+        });
     }
 };
 </script>
