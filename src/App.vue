@@ -8,6 +8,8 @@ const siteList = ref([]);
 
 const searchState = ref(0);
 
+const allStats = ref({});
+
 async function onLocationFound(location) {
   searchState.value = 1;
   try {
@@ -18,17 +20,24 @@ async function onLocationFound(location) {
     return;
   }
   searchState.value = 2;
+  sortSites();
 }
 
 function sortSites() {
   siteList.value.sort((a, b) => {
-    return (b.stats ? b.stats.favorites : 0) - (a.stats ? a.stats.favorites: 0);
+    function getFavorites(site) {
+      if (allStats.value[site.siteId]) {
+        return allStats.value[site.siteId].favorites;
+      } else {
+        return 0;
+      }
+    }
+    return getFavorites(b) - getFavorites(a);
   });
 }
 
 function onReceivedStats({ siteId, stats }) {
-  const site = siteList.value.find(site => site.siteId == siteId);
-  site.stats = stats;
+  allStats.value[siteId] = stats;
 
   sortSites();
 }
