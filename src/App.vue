@@ -1,71 +1,77 @@
-<script setup>
-import { ref } from 'vue';
+<script>
 import Query from './components/Query.vue';
 import WowoPreview from './components/WowoPreview.vue';
 import wowoApi from './wowoApi.js';
 
-const siteList = ref([]);
+export default {
+  components: {
+    Query,
+    WowoPreview,
+  },
+  data() {
+    return {
+      siteList: [],
+      searchState: 0,
+      allStats: {},
+    }
+  },
 
-const searchState = ref(0);
-
-const allStats = ref({});
-
-async function onLocationFound(location) {
-  searchState.value = 1;
-  try {
-    siteList.value = await wowoApi.getWowoList(location.lat, location.lng);
-  } catch (e) {
-    alert(e.message);
-    searchState.value = 0;
-    return;
-  }
-  searchState.value = 2;
-  sortSites();
-}
-
-function sortSites() {
-  siteList.value.sort((a, b) => {
-    function getFavorites(site) {
-      if (allStats.value[site.siteId]) {
-        return allStats.value[site.siteId].favorites;
+  methods: {
+    async onLocationFound(location) {
+      this.searchState = 1;
+      try {
+        this.siteList = await wowoApi.getWowoList(location.lat, location.lng);
+      } catch (e) {
+        alert(e.message);
+        this.searchState = 0;
+        return;
+      }
+      this.searchState = 2;
+      this.sortSites();
+    },
+    getFavorites(site) {
+      if (this.allStats[site.siteId]) {
+        return this.allStats[site.siteId].favorites;
       } else {
         return 0;
       }
+    },
+    sortSites() {
+      this.siteList.sort((a, b) => {
+        return this.getFavorites(b) - this.getFavorites(a);
+      });
+    },
+    onReceivedStats({ siteId, stats }) {
+      this.allStats[siteId] = stats;
+      this.sortSites();
     }
-    return getFavorites(b) - getFavorites(a);
-  });
-}
-
-function onReceivedStats({ siteId, stats }) {
-  allStats.value[siteId] = stats;
-
-  sortSites();
+  }
 }
 
 </script>
 
 <template>
   <div class="main">
-    <div class="title">
+    <div class="title main-items">
       🚗 找窝窝
     </div>
-    <Query @location-found="onLocationFound" />
-    <div v-if="searchState === 1">
+    <Query class="main-items" @location-found="onLocationFound" />
+    <div class="main-items" v-if="searchState === 1">
       <p class="searchStatus">搜索中……</p>
     </div>
-    <div v-if="searchState === 2">
+    <div class="main-items" v-if="searchState === 2">
       <p class="searchStatus">共找到<span class="count">{{ siteList.length }}</span>个结果</p>
     </div>
-    <WowoPreview v-for="site in siteList" :key="site.siteId" :site-id="site.siteId" @received-stats="onReceivedStats"/>
+    <WowoPreview class="main-items" v-for="site in siteList" :key="site.siteId" :site-id="site.siteId" @received-stats="onReceivedStats" />
   </div>
 </template>
 
-<style scoped>
+<style>
 .main {
   margin-top: 50px;
 }
 
-.main * {
+.main-items {
   margin: 0 auto;
   width: fit-content;
 }
