@@ -1,4 +1,6 @@
 <script>
+import amapApi from '../amapApi.js';
+
 export default {
   data() {
     return {
@@ -22,7 +24,8 @@ export default {
             });
             const ret = {
               lat: position.coords.latitude,
-              lng: position.coords.longitude
+              lng: position.coords.longitude,
+              address: "当前位置",
             };
             this.$emit('locationFound', ret);
           } catch (error) {
@@ -30,7 +33,14 @@ export default {
             console.error(error);
           }
         } else {
-          alert("TODO");
+          const geoCode = await amapApi.getGeoCode(this.customLocationText);
+          const [lng, lat] = geoCode.location.split(',').map(parseFloat);
+          const ret = {
+            lat,
+            lng,
+            address: geoCode.formatted_address,
+          };
+          this.$emit('locationFound', ret);
         }
       } finally {
         this.loading = false;
@@ -50,7 +60,7 @@ export default {
       <input type="radio" id="customLocation" v-model="mode" value="customLocation" />
       <input type="text" :disabled="mode != 'customLocation'" v-model="customLocationText" placeholder="指定地址" />
     </div>
-    <button @click="getPosition" :disabled="loading">{{loading ? '获取位置中……' : '搜索窝窝'}}</button>
+    <button @click="getPosition" :disabled="loading">{{ loading ? '获取位置中……' : '搜索窝窝' }}</button>
   </div>
 </template>
 
@@ -58,6 +68,7 @@ export default {
 input {
   margin-right: 5px;
 }
+
 button {
   margin-top: 10px;
 }

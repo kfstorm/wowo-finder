@@ -31,6 +31,8 @@ jobs:
           node-version: 16
       - run: npm ci
       - run: npm run build -- --base=/wowo-finder/
+        env:
+          VITE_AMAP_KEY: ${{ secrets.AMAP_KEY }}
       - uses: actions/upload-pages-artifact@v1
         with:
           path: dist/

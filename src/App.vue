@@ -13,12 +13,14 @@ export default {
       siteList: [],
       searchState: 0,
       allStats: {},
+      searchAddress: "",
     }
   },
 
   methods: {
     async onLocationFound(location) {
       this.searchState = 1;
+      this.searchAddress = location.address;
       try {
         this.siteList = await wowoApi.getWowoList(location.lat, location.lng);
       } catch (e) {
@@ -57,10 +59,10 @@ export default {
     </div>
     <Query class="main-items" @location-found="onLocationFound" />
     <div class="main-items" v-if="searchState === 1">
-      <p class="searchStatus">搜索中……</p>
+      <p class="searchStatus">在{{searchAddress}}附近搜索中……</p>
     </div>
     <div class="main-items" v-if="searchState === 2">
-      <p class="searchStatus">共找到<span class="count">{{ siteList.length }}</span>个结果</p>
+      <p class="searchStatus">在{{searchAddress}}附近共找到<span class="count">{{ siteList.length }}</span>个结果</p>
     </div>
     <WowoPreview class="main-items" v-for="site in siteList" :key="site.siteId" :site-id="site.siteId" @received-stats="onReceivedStats" />
   </div>
