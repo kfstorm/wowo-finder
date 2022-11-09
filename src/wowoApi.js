@@ -31,16 +31,6 @@ class WowoApi {
     const url = `${this.#urlPrefix}/community/site/get?siteId=${siteId}`;
     return await this.#getResponse(url);
   }
-
-  #getWowoIconsPrimise = null;
-
-  async getWowoIcons() {
-    if (!this.#getWowoIconsPrimise) {
-      const url = `${this.#urlPrefix}/icon/findIconByLabel?label=wowo`;
-      this.#getWowoIconsPrimise = this.#getResponse(url);
-    }
-    return await this.#getWowoIconsPrimise;
-  }
 }
 
 export default new WowoApi();

@@ -9,7 +9,16 @@ export default {
             images: [],
             address: [],
             description: "",
-            icons: [],
+            capabilities: {
+                camping: {
+                    available: false,
+                    icon: "⛺️",
+                },
+                toilet: {
+                    available: false,
+                    icon: "🚾",
+                },
+            },
             style: "",
             favorites: 0,
             rewards: 0,
@@ -23,7 +32,14 @@ export default {
     methods: {
         onClick() {
             window.open(`http://web.woyouzhijia.cn/web/share.html?${this.uniqueToken}`, "_blank");
-        }
+        },
+        getCapabilityStyle(capability) {
+            if (this.capabilities[capability].available) {
+                return "";
+            } else {
+                return "filter: grayscale(100%)";
+            }
+        },
     },
     emits: ['receivedStats'],
     async mounted() {
@@ -36,8 +52,8 @@ export default {
         this.description = wowo.subSite.description;
         this.style = wowo.subSite.style;
 
-        const iconList = await wowoApi.getWowoIcons();
-        this.icons = iconList.filter(icon => icon.id == 24 || icon.id == 25).map(icon => wowo.subSite.iconList.includes(icon.id) ? icon["selectedIcon"] : icon["unselectedIcon"]);
+        this.capabilities.camping.available = wowo.subSite.iconList.includes(24);
+        this.capabilities.toilet.available = wowo.subSite.iconList.includes(25);
 
         this.favorites = wowo.countCollect;
         this.rewards = wowo.countReward;
@@ -72,10 +88,9 @@ export default {
                         <span class="pin">📍</span>
                         <span>{{ address }}</span>
                     </div>
-                    <div>
-                        <img class="icon" v-for="icon in icons" :src="icon" />
+                    <div class="capability-list">
+                        <span v-for="(value, key) in capabilities" :style="getCapabilityStyle(key)">{{value.icon}}</span>
                     </div>
-
                 </div>
             </div>
             <div class="stats">
@@ -111,9 +126,10 @@ export default {
     height: 100px;
 }
 
-.icon {
-    width: 50px;
-    height: 50px;
+.capability-list {
+    display: flex;
+    gap: 0.5em;
+    font-size: 2em;
 }
 
 .description {
