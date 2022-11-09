@@ -1,11 +1,11 @@
 <script>
-import Query from './components/Query.vue';
-import WowoPreview from './components/WowoPreview.vue';
-import wowoApi from './wowoApi.js';
+import QueryComposer from "./components/QueryComposer.vue";
+import WowoPreview from "./components/WowoPreview.vue";
+import wowoApi from "./wowoApi.js";
 
 export default {
   components: {
-    Query,
+    QueryComposer,
     WowoPreview,
   },
   data() {
@@ -14,7 +14,7 @@ export default {
       searchState: 0,
       allStats: {},
       searchAddress: "",
-    }
+    };
   },
 
   methods: {
@@ -46,26 +46,25 @@ export default {
     onReceivedStats({ siteId, stats }) {
       this.allStats[siteId] = stats;
       this.sortSites();
-    }
-  }
-}
-
+    },
+  },
+};
 </script>
 
 <template>
   <div class="head">
-    <h1 class="title">
-      🚗 找窝窝
-    </h1>
-    <Query @location-found="onLocationFound" />
+    <h1 class="title">🚗 找窝窝</h1>
+    <QueryComposer @location-found="onLocationFound" />
     <div v-if="searchState === 1">
-      <p>在
+      <p>
+        在
         <span class="address">{{ searchAddress }}</span>
         附近搜索中……
       </p>
     </div>
     <div v-if="searchState === 2">
-      <p>在
+      <p>
+        在
         <span class="address">{{ searchAddress }}</span>
         附近共找到
         <span class="count">{{ siteList.length }}</span>
@@ -73,7 +72,12 @@ export default {
       </p>
     </div>
   </div>
-  <WowoPreview v-for="site in siteList" :key="site.siteId" :site-id="site.siteId" @received-stats="onReceivedStats" />
+  <WowoPreview
+    v-for="site in siteList"
+    :key="site.siteId"
+    :site-id="site.siteId"
+    @received-stats="onReceivedStats"
+  />
 </template>
 
 <style>

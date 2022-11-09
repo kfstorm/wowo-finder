@@ -1,17 +1,17 @@
 <script>
-import amapApi from '../amapApi.js';
+import amapApi from "../amapApi.js";
 
 export default {
   data() {
     return {
       mode: "currentLocation",
       loading: false,
-      customLocationText: '',
+      customLocationText: "",
       customLocation: {
         lat: 0,
-        lng: 0
+        lng: 0,
       },
-    }
+    };
   },
   methods: {
     async getPosition() {
@@ -27,26 +27,26 @@ export default {
               lng: position.coords.longitude,
               address: "当前位置",
             };
-            this.$emit('locationFound', ret);
+            this.$emit("locationFound", ret);
           } catch (error) {
             alert("无法获取当前位置。");
             console.error(error);
           }
         } else {
           const geoCode = await amapApi.getGeoCode(this.customLocationText);
-          const [lng, lat] = geoCode.location.split(',').map(parseFloat);
+          const [lng, lat] = geoCode.location.split(",").map(parseFloat);
           const ret = {
             lat,
             lng,
             address: geoCode.formatted_address,
           };
-          this.$emit('locationFound', ret);
+          this.$emit("locationFound", ret);
         }
       } finally {
         this.loading = false;
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
@@ -54,15 +54,32 @@ export default {
   <div class="query-container">
     <div class="mode-selector">
       <div>
-        <input type="radio" id="currentLocation" v-model="mode" value="currentLocation" />
+        <input
+          type="radio"
+          id="currentLocation"
+          v-model="mode"
+          value="currentLocation"
+        />
         <label for="currentLocation">使用当前位置</label>
       </div>
       <div>
-        <input type="radio" id="customLocation" v-model="mode" value="customLocation" />
-        <input type="text" :disabled="mode != 'customLocation'" v-model="customLocationText" placeholder="指定地址" />
+        <input
+          type="radio"
+          id="customLocation"
+          v-model="mode"
+          value="customLocation"
+        />
+        <input
+          type="text"
+          :disabled="mode != 'customLocation'"
+          v-model="customLocationText"
+          placeholder="指定地址"
+        />
       </div>
     </div>
-    <button @click="getPosition" :disabled="loading">{{ loading ? '获取位置中……' : '搜索窝窝' }}</button>
+    <button @click="getPosition" :disabled="loading">
+      {{ loading ? "获取位置中……" : "搜索窝窝" }}
+    </button>
   </div>
 </template>
 

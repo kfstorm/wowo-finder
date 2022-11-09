@@ -1,17 +1,16 @@
 class WowoApi {
-
   #urlPrefix = "https://app.woyouzhijia.cn/app";
 
   async #getResponse(url) {
     const response = await fetch(url, {
-      cache: 'force-cache',
-      referrerPolicy: 'no-referrer',
+      cache: "force-cache",
+      referrerPolicy: "no-referrer",
     });
     const data = await response.json();
     if (data["errno"]) {
       throw new Error(data["errmsg"]);
     }
-    return data["data"]
+    return data["data"];
   }
 
   async getWowoList(lat, lng, range = 20) {

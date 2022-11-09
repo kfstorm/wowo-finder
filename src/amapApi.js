@@ -7,9 +7,15 @@ class AmapApi {
       address: address,
       key: this.key,
     });
-    const response = await fetch(`https://restapi.amap.com/v3/geocode/geo?${qp}`);
+    const response = await fetch(
+      `https://restapi.amap.com/v3/geocode/geo?${qp}`
+    );
     const data = await response.json();
-    if (data["status"] == "1" && data["geocodes"] && data["geocodes"].length > 0) {
+    if (
+      data["status"] == "1" &&
+      data["geocodes"] &&
+      data["geocodes"].length > 0
+    ) {
       return data["geocodes"][0];
     }
     throw new Error(data["info"]);
