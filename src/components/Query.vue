@@ -51,25 +51,40 @@ export default {
 </script>
 
 <template>
-  <div>
-    <div>
-      <input type="radio" id="currentLocation" v-model="mode" value="currentLocation" />
-      <label for="currentLocation">使用当前位置</label>
-    </div>
-    <div>
-      <input type="radio" id="customLocation" v-model="mode" value="customLocation" />
-      <input type="text" :disabled="mode != 'customLocation'" v-model="customLocationText" placeholder="指定地址" />
+  <div class="query-container">
+    <div class="mode-selector">
+      <div>
+        <input type="radio" id="currentLocation" v-model="mode" value="currentLocation" />
+        <label for="currentLocation">使用当前位置</label>
+      </div>
+      <div>
+        <input type="radio" id="customLocation" v-model="mode" value="customLocation" />
+        <input type="text" :disabled="mode != 'customLocation'" v-model="customLocationText" placeholder="指定地址" />
+      </div>
     </div>
     <button @click="getPosition" :disabled="loading">{{ loading ? '获取位置中……' : '搜索窝窝' }}</button>
   </div>
 </template>
 
 <style>
+.query-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.mode-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
 input {
-  margin-right: 5px;
+  margin-right: 10px;
 }
 
 button {
-  margin-top: 10px;
+  font-size: 1.2em;
 }
 </style>

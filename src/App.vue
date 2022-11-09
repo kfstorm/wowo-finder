@@ -53,29 +53,35 @@ export default {
 </script>
 
 <template>
-  <div class="main">
-    <div class="title main-items">
+  <div class="head">
+    <h1 class="title">
       🚗 找窝窝
+    </h1>
+    <Query @location-found="onLocationFound" />
+    <div v-if="searchState === 1">
+      <p>在
+        <span class="address">{{ searchAddress }}</span>
+        附近搜索中……
+      </p>
     </div>
-    <Query class="main-items" @location-found="onLocationFound" />
-    <div class="main-items" v-if="searchState === 1">
-      <p class="searchStatus">在{{searchAddress}}附近搜索中……</p>
+    <div v-if="searchState === 2">
+      <p>在
+        <span class="address">{{ searchAddress }}</span>
+        附近共找到
+        <span class="count">{{ siteList.length }}</span>
+        个结果
+      </p>
     </div>
-    <div class="main-items" v-if="searchState === 2">
-      <p class="searchStatus">在{{searchAddress}}附近共找到<span class="count">{{ siteList.length }}</span>个结果</p>
-    </div>
-    <WowoPreview class="main-items" v-for="site in siteList" :key="site.siteId" :site-id="site.siteId" @received-stats="onReceivedStats" />
   </div>
+  <WowoPreview v-for="site in siteList" :key="site.siteId" :site-id="site.siteId" @received-stats="onReceivedStats" />
 </template>
 
 <style>
-.main {
-  margin-top: 50px;
-}
-
-.main-items {
-  margin: 0 auto;
-  width: fit-content;
+.head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
 }
 
 .title {
@@ -83,11 +89,8 @@ export default {
   color: greenyellow;
 }
 
-.searchStatus {
-  margin: 10px 0;
-}
-
-.count {
+.count,
+.address {
   color: lightgreen;
   font-weight: bold;
   margin: 0 5px;
