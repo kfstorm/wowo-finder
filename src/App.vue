@@ -97,6 +97,5 @@ export default {
 .address {
   color: lightgreen;
   font-weight: bold;
-  margin: 0 5px;
 }
 </style>

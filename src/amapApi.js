@@ -1,5 +1,4 @@
 class AmapApi {
-  // TODO: Don't store key in code.
   key = import.meta.env.VITE_AMAP_KEY;
 
   async getGeoCode(address) {

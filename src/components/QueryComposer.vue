@@ -22,6 +22,7 @@ export default {
             const position = await new Promise((resolve, reject) => {
               navigator.geolocation.getCurrentPosition(resolve, reject);
             });
+            // TODO: convert to gaode coordinates
             const ret = {
               lat: position.coords.latitude,
               lng: position.coords.longitude,
@@ -71,8 +72,8 @@ export default {
         />
         <input
           type="text"
-          :disabled="mode != 'customLocation'"
           v-model="customLocationText"
+          @click="mode = 'customLocation'"
           placeholder="指定地址"
         />
       </div>
