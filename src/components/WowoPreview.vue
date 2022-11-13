@@ -45,6 +45,19 @@ export default {
     },
   },
   emits: ["receivedStats"],
+  computed: {
+    previewImageUrl() {
+      if (this.images.length > 0) {
+        let url = new URL(this.images[0]);
+        if (url.protocol === "http") {
+          // To avoid "[blocked] The page at https://... was not allowed to display insecure content from http://..." in Safari.
+          url.protocol = "https";
+        }
+        return url.toString();
+      }
+      return "";
+    },
+  },
   async mounted() {
     const wowo = await wowoApi.getWowo(this.siteId);
     this.loading = false;
@@ -82,7 +95,7 @@ export default {
     <div class="container" v-if="!loading" @click="onClick">
       <div class="mainPreview">
         <div>
-          <img class="pic" :src="images[0]" />
+          <img class="pic" :src="previewImageUrl" />
           <div class="style">{{ style }}</div>
         </div>
         <div>
